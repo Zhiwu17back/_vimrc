@@ -1,2 +1,2 @@
 # _vimrc
-for vim config
+for gVim config on Windows 11
