@@ -44,49 +44,46 @@ function MyDiff()
 endfunction
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"===========================配置Python解释器=================================="
-" 绑定到F10运行
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===========================configure Python compiler==============================="
+" Run bound to F10
 map <F10> :!python %
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"============================个性化======================================="
-" 修改vim启动文件夹
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"==========================++++==personalized==================================="
+" modify Vim startup folder
 cd C:/Data
-" 显示行号和相对行号
+" set language
+let $LANG='en'
+set langmenu=en
+" show line number
 set number
-set relativenumber
-" 不兼容vi模式，全力发挥vim特性
+" not compatible with Vi mode
 set nocp
-" 不显示乌干达
+" not show Uganda
 set shortmess=atI
-" 按下Tab键后，显示的空格数
+" Number of Spaces when Tab is pressed
 set tabstop=2
-" 自动将Tab键转为空格键
+" Automatically change Tab to Space
 set expandtab
 " set vim auto change the current working directory whenever you open a file
-" 想了下还是不自动更改工作目录了，这样可以把工作目录设置在保存数据的文件夹中
-" 但代码在另一个文件夹中，直接运行就能督导文件了。自己更容易控制所在的工作目录
 " set autochdir
-" 不显示工具栏
+" No tollbar
 set guioptions-=m
-" 不显示菜单栏
+" No menu bar
 set guioptions-=T
-" 关闭右侧滚动条
+" No scroll bar
 set guioptions-=r
-" 关闭左侧滚动条
 set guioptions-=l
-" 关闭窗口垂直分割时显示在左侧的滚动条
 set guioptions-=L
-" 关闭窗口垂直分割时显示在右侧的滚动条
 set guioptions-=R
-" 设置初始界面位置
+" Set the initial position of the interface
 winpos 300 300
-" 设置初始界面大小
+" Set the intial size of the interface
 set lines=30 columns=120
-" 光标所在行高亮
+" Cursor line highlighted
 set cursorline
-" 兼容鼠标
+" Compatible Mouse
 set mouse=a
 " 设置折叠
 set foldmethod=indent
@@ -117,8 +114,8 @@ set laststatus=2
 :set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"=========================vim-plug config===================="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===========================vim-plug config============================="
 call plug#begin()
 " The default plugin directory will be as follows:
 "   - Vim (Linux/macOS): '~/.vim/plugged'
@@ -168,8 +165,8 @@ call plug#end()
 "   syntax off            " Disable syntax highlighting
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"=================MarkdownPreview Config======================"
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=======================MarkdownPreview Config=========================="
 " set to 1, nvim will open the preview window after entering the Markdown buffer
 " default: 0
 let g:mkdp_auto_start = 0
@@ -183,7 +180,7 @@ let g:mkdp_auto_close = 1
 " when leaving insert mode. Default 0 is auto-refresh Markdown as you edit or
 " move the cursor
 " default: 0
-let g:mkdp_refresh_slow = 0
+let g:mkdp_refresh_slow = 1
 
 " set to 1, the MarkdownPreview command can be used for all files,
 " by default it can be use in Markdown files only
@@ -270,7 +267,7 @@ let g:mkdp_filetypes = ['markdown']
 
 " set default theme (dark or light)
 " By default the theme is defined according to the preferences of the system
-let g:mkdp_theme = 'dark'
+let g:mkdp_theme = 'light'
 
 " combine preview window
 " default: 0
@@ -282,9 +279,13 @@ let g:mkdp_combine_preview = 0
 " only when g:mkdp_combine_preview is 1
 let g:mkdp_combine_preview_auto_refresh = 1
 
+nnoremap <leader>md :MarkdownPreview<CR>
+nnoremap <leader>ms :MarkdownPreviewStop<CR>
+nnoremap <leader>mt :MarkdownPreviewToggle<CR>
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"======================LaTex=============================
+"==============================LaTex================================="
 " This is necessary for VimTeX to load properly. The "indent" is optional.
 " Note that most plugin managers will do this automatically.
 filetype plugin indent on
@@ -294,28 +295,20 @@ filetype plugin indent on
 " info).
 syntax enable
 
-
-" 阅读器相关的配置 包含正反向查找功能
-" let g:Tex_ViewRule_pdf = 'C:\Program Files\SumatraPDF\SumatraPDF.exe -reuse-instance -inverse-search "gvim -c \":RemoteOpen +\%l \%f\""'
-" let g:Tex_ViewRule_pdf = 'SumatraPDF -reuse-instance -inverse-search "gvim -c \":RemoteOpen +\%l \%f\""'
-" 这里放置sumatrapdf 安装路径
-" let g:vimtex_view_general_viewer = 'SumatraPDF'
-" let g:vimtex_view_general_options
-"      \ = ' -reuse-instance -forward-search @tex @line @pdf'
-"      \ . ' -inverse-search "' . 'cmd /c start /min \"\" '  . 'gvim'
-"      \ . ' -v --not-a-term -T dumb -c  \"VimtexInverseSearch %l ''%f''\""'
+" config xelatex as default engine of compile
+let g:vimtex_compiler_latexmk_engines = {'_':'-xelatex'}
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"=========================NERDTree==================================="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"=============================NERDTree=============================="
 "打开vim时，自动打开NERDTree
 autocmd vimenter * NERDTree
-"窗口显示行号
+" Show line number
 let g:NERDTreeShowLineNumbers=1
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"=========================Ultisnips======================================
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"==============================Ultisnips==============================="
 " 用<INS>插入代码块
 let g:UltiSnipsExpandTrigger = '<INS>'
 " 用<INS>跳到下一个位置
@@ -324,8 +317,8 @@ let g:UltiSnipsJumpForwardTrigger = '<INS>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-INS>'
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"============================Coc.nvim====================================="
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"==============================Coc.nvim==============================="
 " https://raw.githubusercontent.com/neoclide/coc.nvim/master/doc/coc-example-config.vim
 
 " May need for Vim (not Neovim) since coc.nvim calculates byte offset by count
@@ -568,5 +561,8 @@ function! MyTabLine()
     endif
 
     return s
+endfunction
+set tabline=%!MyTabLine()
+
 endfunction
 set tabline=%!MyTabLine()
